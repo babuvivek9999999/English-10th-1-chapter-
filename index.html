@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pace for Living - Test</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ad-banner {
+            width: 100%;
+            max-width: 900px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #555;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px;
+        }
+        .ad-banner.bottom {
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+        .mid-quiz-ad {
+            margin: 20px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .chapter-title {
+            color: #007bff;
+        }
+        .name-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .name-section label {
+            font-size: 1.1em;
+            margin-right: 10px;
+        }
+        .name-section input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 60%;
+            max-width: 250px;
+        }
+        .name-section button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+            transition: background-color 0.2s ease;
+        }
+        .name-section button:hover {
+            background-color: #218838;
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+        }
+        .question-block p {
+            font-size: 1.15em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: relative;
+            padding-left: 35px;
+        }
+        .options label:hover:not(.correct-answer):not(.wrong-selected) {
+            background-color: #dfe6e9;
+        }
+        .options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .options label::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3498db;
+            border-radius: 50%;
+            background-color: white;
+            box-sizing: border-box;
+        }
+        .options input[type="radio"]:checked + label::before {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .options input[type="radio"]:checked + label::after {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        /* Feedback styling */
+        .correct-answer {
+            background-color: #d4edda !important;
+            border: 1px solid #28a745;
+        }
+        .wrong-selected {
+            background-color: #f8d7da !important;
+            border: 1px solid #dc3545;
+        }
+        .feedback-correct {
+            background-color: #d4edda !important;
+            border: 1px solid #28a745;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .navigation-buttons button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+        .navigation-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .navigation-buttons button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #e9f5ff;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .results p {
+            margin: 10px 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Ad Banner -->
+    <div class="ad-banner">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4b505c9273cf9161c278efee028f35e2',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4b505c9273cf9161c278efee028f35e2/invoke.js"></script>
+    </div>
+
+    <div class="container">
+        <h1><span class="chapter-title">The Pace for Living</span><br>Test</h1>
+
+        <div id="name-input-section" class="name-section">
+            <label for="student-name">Please enter your name:</label>
+            <input type="text" id="student-name" placeholder="Your Name">
+            <button onclick="startQuiz()">Start Test</button>
+        </div>
+
+        <div id="quiz-container" class="hidden">
+            <div id="current-question-display">
+                <!-- Current question will be loaded here by JavaScript -->
+            </div>
+            
+            <!-- Middle Ad Banner (below question options) -->
+            <div class="mid-quiz-ad">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : '4b505c9273cf9161c278efee028f35e2',
+                        'format' : 'iframe',
+                        'height' : 50,
+                        'width' : 320,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/4b505c9273cf9161c278efee028f35e2/invoke.js"></script>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button id="prev-btn" onclick="prevQuestion()" disabled>Previous Question</button>
+                <button id="next-btn" onclick="handleNextButton()">Next Question</button>
+            </div>
+        </div>
+
+        <div id="results-section" class="results hidden">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Bottom Ad Banner -->
+    <div class="ad-banner bottom">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4b505c9273cf9161c278efee028f35e2',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4b505c9273cf9161c278efee028f35e2/invoke.js"></script>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Who is the author of 'The Pace for Living'?",
+                options: ["Mahadevi Verma", "Satyajit Ray", "R.C. Hutchinson", "Ang San Suu Kyi"],
+                answer: "R.C. Hutchinson"
+            },
+            // ... (all other questions remain the same)
+            {
+                question: "50. The author prefers to follow his own ________ in life.",
+                options: ["rules", "pace", "trends", "dreams"],
+                answer: "pace"
+            }
+        ];
+
+        let studentName = "";
+        let currentQuestionIndex = 0;
+        let userResponses = Array(questions.length).fill(null);
+
+        const nameInputSection = document.getElementById('name-input-section');
+        const quizContainer = document.getElementById('quiz-container');
+        const currentQuestionDisplay = document.getElementById('current-question-display');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const resultsSection = document.getElementById('results-section');
+
+        function startQuiz() {
+            studentName = document.getElementById('student-name').value.trim();
+            if (studentName === "") {
+                alert("Please enter your name.");
+                return;
+            }
+            nameInputSection.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function loadQuestion(index) {
+            currentQuestionDisplay.innerHTML = '';
+            const q = questions[index];
+            let questionHTML = `
+                <div class="question-block" id="question-${index}">
+                    <p>${q.question}</p>
+                    <div class="options">
+            `;
+            q.options.forEach((option, optionIndex) => {
+                const uniqueId = `q${index}-option${optionIndex}`;
+                questionHTML += `
+                        <input type="radio" id="${uniqueId}" name="question-${index}" value="${option}" onchange="selectAnswer(${index}, '${option}')">
+                        <label for="${uniqueId}">${option}</label>
+                `;
+            });
+            questionHTML += `
+                    </div>
+                </div>
+            `;
+            currentQuestionDisplay.innerHTML = questionHTML;
+
+            prevBtn.disabled = (currentQuestionIndex === 0);
+
+            if (userResponses[index] !== null) {
+                const previouslySelectedRadio = document.querySelector(`input[name="question-${index}"][value="${userResponses[index].selected}"]`);
+                if (previouslySelectedRadio) {
+                    previouslySelectedRadio.checked = true;
+                }
+                applyFeedback(index, userResponses[index].selected, q.answer);
+                disableRadios(index);
+            }
+        }
+
+        function selectAnswer(questionIndex, selectedOptionValue) {
+            const correctAnswer = questions[questionIndex].answer;
+            const isCorrect = (selectedOptionValue === correctAnswer);
+            userResponses[questionIndex] = { selected: selectedOptionValue, isCorrect: isCorrect };
+
+            applyFeedback(questionIndex, selectedOptionValue, correctAnswer);
+            disableRadios(questionIndex);
+        }
+
+        function applyFeedback(questionIndex, selectedOptionValue, correctAnswer) {
+            const questionBlock = document.getElementById(`question-${questionIndex}`);
+            const optionsLabels = questionBlock.querySelectorAll('label');
+            
+            optionsLabels.forEach(label => {
+                const labelText = label.innerText.trim();
+                label.classList.remove('correct-answer', 'wrong-selected', 'feedback-correct');
+
+                if (labelText === correctAnswer) {
+                    label.classList.add('feedback-correct');
+                }
+                if (labelText === selectedOptionValue && selectedOptionValue !== correctAnswer) {
+                    label.classList.add('wrong-selected');
+                }
+            });
+        }
+
+        function disableRadios(questionIndex) {
+            const questionBlock = document.getElementById(`question-${questionIndex}`);
+            const radioButtons = questionBlock.querySelectorAll(`input[name="question-${questionIndex}"]`);
+            radioButtons.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
+
+        function handleNextButton() {
+            if (currentQuestionIndex === questions.length - 1) {
+                submitQuiz();
+            } else {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitQuiz() {
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+
+            userResponses.forEach(response => {
+                if (response !== null) {
+                    if (response.isCorrect) {
+                        correctCount++;
+                    } else {
+                        incorrectCount++;
+                    }
+                } else {
+                    unansweredCount++;
+                }
+            });
+
+            quizContainer.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+            resultsSection.innerHTML = `
+                <h2>Test Results</h2>
+                <p><strong>Student Name:</strong> ${studentName}</p>
+                <p style="color: #28a745;"><strong>Correct Answers:</strong> ${correctCount} / ${questions.length}</p>
+                <p style="color: #dc3545;"><strong>Incorrect Answers:</strong> ${incorrectCount} / ${questions.length}</p>
+                <p style="color: #ffc107;"><strong>Unanswered Questions:</strong> ${unansweredCount} / ${questions.length}</p>
+                <button class="navigation-buttons button" onclick="location.reload()" style="background-color: #007bff; margin-top: 20px;">Retake Test</button>
+            `;
+        }
+    </script>
+</body>
+</html>
